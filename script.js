@@ -1,4 +1,4 @@
-const myLibrary = [];
+let myLibrary = [];
 
 function Book(title, author, pages, isRead) {
     this.id = crypto.randomUUID();
@@ -14,25 +14,44 @@ function addBookToLibrary(title, author, pages, isRead) {
     return book;
 }
 
-addBookToLibrary('Siddhartha', 'Herman Hesse', 128, 'Yes');
-addBookToLibrary('Atomic Habits', 'James Clear', 271, 'Yes');
-addBookToLibrary('Meditations', 'Marcus Aurelius', 180, 'No');
 console.log(myLibrary);
+
+Book.prototype.toggleRead = function () {
+  this.isRead = !this.isRead;
+}
 
 function renderLibrary() {
   const library = document.querySelector('.library');
   library.innerHTML = ""; 
+
   myLibrary.forEach(book => {
     const card = document.createElement('div');
+    card.setAttribute("data-id", book.id);
+
+    const info = document.createElement('p');
+    info.textContent = `${book.title} by ${book.author}, ${book.pages} pages, Read: ${book.isRead}`;
+
+    const toggleBtn = document.createElement("button");
+    toggleBtn.textContent = "Read";
+
     const deleteBtn = document.createElement('button');
-    card.textContent = `${book.title} by ${book.author}, ${book.pages} pages, Read: ${book.isRead}`;
     deleteBtn.textContent = "Remove";
+
+    card.appendChild(info);
     card.appendChild(deleteBtn);
+    card.appendChild(toggleBtn);
     library.appendChild(card);
 
     deleteBtn.addEventListener("click", () => {
-      
-    })
+      myLibrary = myLibrary.filter(book => book.id !== id);
+      renderLibrary();
+    });
+
+    toggleBtn.addEventListener("click", () => {
+      book.toggleRead();
+      renderLibrary();
+    });
+    
   });
 }
 
@@ -54,3 +73,4 @@ form.addEventListener("submit", (event) => {
     form.reset();
     document.getElementById('formDialog').close();
 });
+
