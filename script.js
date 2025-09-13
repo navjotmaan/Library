@@ -26,9 +26,11 @@ function renderLibrary() {
 
   myLibrary.forEach(book => {
     const card = document.createElement('div');
+    card.classList.add('card');
     card.setAttribute("data-id", book.id);
 
     const info = document.createElement('p');
+    info.setAttribute("id", "book-info");
     info.textContent = `${book.title} by ${book.author}, ${book.pages} pages, Read: ${book.isRead}`;
 
     const toggleBtn = document.createElement("button");
@@ -37,12 +39,17 @@ function renderLibrary() {
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = "Remove";
 
+    const btns = document.createElement('div');
+    btns.setAttribute('id', 'btns');
+    btns.appendChild(toggleBtn);
+    btns.appendChild(deleteBtn);
+
     card.appendChild(info);
-    card.appendChild(deleteBtn);
-    card.appendChild(toggleBtn);
+    card.appendChild(btns);
     library.appendChild(card);
 
     deleteBtn.addEventListener("click", () => {
+      const id = card.getAttribute("data-id");
       myLibrary = myLibrary.filter(book => book.id !== id);
       renderLibrary();
     });
@@ -51,7 +58,7 @@ function renderLibrary() {
       book.toggleRead();
       renderLibrary();
     });
-    
+
   });
 }
 
