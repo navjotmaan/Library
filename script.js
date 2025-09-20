@@ -1,11 +1,17 @@
 let myLibrary = [];
 
-function Book(title, author, pages, isRead) {
+class Book {
+  constructor(title, author, pages, isRead) {
     this.id = crypto.randomUUID();
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.isRead = isRead;
+  }
+
+  toggleRead() {
+    this.isRead = !this.isRead;
+  }
 }
 
 function addBookToLibrary(title, author, pages, isRead) {
@@ -14,11 +20,6 @@ function addBookToLibrary(title, author, pages, isRead) {
     return book;
 }
 
-console.log(myLibrary);
-
-Book.prototype.toggleRead = function () {
-  this.isRead = !this.isRead;
-}
 
 function renderLibrary() {
   const library = document.querySelector('.library');
